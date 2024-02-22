@@ -300,20 +300,27 @@ namespace sep_authenticator
 
                     if (this.Text != string.Empty)
                     {
-                        using (Brush FontColor = new SolidBrush(this.ForeColor))
+                        try
                         {
-                            int ShadowOffset = 2;
-                            SizeF MS = graphics.MeasureString(this.Text, this.Font);
-                            SolidBrush shadowBrush = new SolidBrush(Color.FromArgb(100, this.ForeColor));
+                            using (Brush FontColor = new SolidBrush(this.ForeColor))
+                            {
+                                int ShadowOffset = 2;
+                                SizeF MS = graphics.MeasureString(this.Text, this.Font);
+                                SolidBrush shadowBrush = new SolidBrush(Color.FromArgb(100, this.ForeColor));
 
-                            //Sombra del Texto:
-                            graphics.DrawString(this.Text, this.Font, shadowBrush,
-                                Convert.ToInt32(Width / 2 - MS.Width / 2) + ShadowOffset, Convert.ToInt32(Height / 2 - MS.Height / 2) + ShadowOffset);
+                                //Sombra del Texto:
+                                graphics.DrawString(this.Text, this.Font, shadowBrush,
+                                    Convert.ToInt32(Width / 2 - MS.Width / 2) + ShadowOffset, Convert.ToInt32(Height / 2 - MS.Height / 2) + ShadowOffset);
 
-                            //Texto:
-                            graphics.DrawString(this.Text, this.Font, FontColor,
-                                Convert.ToInt32(Width / 2 - MS.Width / 2),
-                                Convert.ToInt32(Height / 2 - MS.Height / 2));
+                                //Texto:
+                                graphics.DrawString(this.Text, this.Font, FontColor,
+                                    Convert.ToInt32(Width / 2 - MS.Width / 2),
+                                    Convert.ToInt32(Height / 2 - MS.Height / 2));
+                            }
+                        }
+                        catch(Exception ex)
+                        {
+                            MessageBox.Show("There was an error.\r\nMore Details: " + ex.Message);
                         }
                     }
                     #endregion

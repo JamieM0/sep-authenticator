@@ -59,7 +59,7 @@
             this.btnCancel.Location = new System.Drawing.Point(12, 12);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(120, 40);
-            this.btnCancel.TabIndex = 1;
+            this.btnCancel.TabIndex = 4;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -70,7 +70,7 @@
             this.btnSaveEntry.Location = new System.Drawing.Point(312, 12);
             this.btnSaveEntry.Name = "btnSaveEntry";
             this.btnSaveEntry.Size = new System.Drawing.Size(120, 40);
-            this.btnSaveEntry.TabIndex = 2;
+            this.btnSaveEntry.TabIndex = 3;
             this.btnSaveEntry.Text = "Save Entry";
             this.btnSaveEntry.UseVisualStyleBackColor = true;
             this.btnSaveEntry.Click += new System.EventHandler(this.btnSaveEntry_Click);
@@ -91,7 +91,7 @@
             this.txtSetupKey.Location = new System.Drawing.Point(16, 97);
             this.txtSetupKey.Name = "txtSetupKey";
             this.txtSetupKey.Size = new System.Drawing.Size(416, 29);
-            this.txtSetupKey.TabIndex = 4;
+            this.txtSetupKey.TabIndex = 0;
             // 
             // txtIssuer
             // 
@@ -99,7 +99,7 @@
             this.txtIssuer.Location = new System.Drawing.Point(286, 188);
             this.txtIssuer.Name = "txtIssuer";
             this.txtIssuer.Size = new System.Drawing.Size(146, 29);
-            this.txtIssuer.TabIndex = 6;
+            this.txtIssuer.TabIndex = 2;
             // 
             // lbIssuer
             // 
@@ -146,7 +146,7 @@
             this.txtUsername.Location = new System.Drawing.Point(16, 188);
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(245, 29);
-            this.txtUsername.TabIndex = 11;
+            this.txtUsername.TabIndex = 1;
             // 
             // lbUsername
             // 

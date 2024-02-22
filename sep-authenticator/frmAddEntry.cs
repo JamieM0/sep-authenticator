@@ -17,6 +17,7 @@ namespace sep_authenticator
     {
         string image;
         Token editToken;
+        DateTime creationDate;
         public frmAddEntry()
         {
             InitializeComponent();
@@ -30,6 +31,7 @@ namespace sep_authenticator
                 txtSetupKey.Text = token.Secret;
                 txtIssuer.Text = token.Issuer;
                 //btnAdd.Text = "Save";
+                creationDate = token.CreatedOn;
             }
             //btnSaveEntry.Text = "Save & Close";
             btnCancel.Text = "Delete";
@@ -47,6 +49,9 @@ namespace sep_authenticator
             {
                 //Delete entry
                 TokenDAL.DeleteToken(editToken);
+                MessageBox.Show("Token deleted successfully.");
+                Hide();
+                new frmMain().Show();
             }
         }
 
@@ -65,11 +70,27 @@ namespace sep_authenticator
 
         private void btnSaveEntry_Click(object sender, EventArgs e)
         {
-            Token token = new Token(txtUsername.Text, txtSetupKey.Text,txtIssuer.Text,DateTime.Now,DateTime.Now);
             if (editToken == null || editToken == new Token())
+            {
+                Token token = new Token(txtUsername.Text, txtSetupKey.Text, txtIssuer.Text, DateTime.Now, DateTime.Now);
                 TokenDAL.AddToken(token);
+            }
             else
-                TokenDAL.EditToken(token);
+            {
+                if(txtSetupKey.Text!=editToken.Secret)
+                {
+                    if (MessageBox.Show("You have changed the secret key. This could stop the MFA Credential from working as expected.\r\nAre you sure you want to do this?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                    {
+                        Token token = new Token(editToken.Id, txtUsername.Text, txtSetupKey.Text, txtIssuer.Text, creationDate, DateTime.Now);
+                        TokenDAL.EditToken(token);
+                    }
+                }
+                else
+                {
+                    Token token = new Token(editToken.Id, txtUsername.Text, txtSetupKey.Text, txtIssuer.Text, creationDate, DateTime.Now);
+                    TokenDAL.EditToken(token);
+                }
+            }
             Hide();
             new frmMain().Show();
         }

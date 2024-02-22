@@ -137,6 +137,7 @@ namespace sep_authenticator
             PrivateFontCollection fonts = new PrivateFontCollection();
             fonts.AddFontFile(Path.Combine(Application.StartupPath, "JetBrainsMono.ttf"));
             Font JetBrains16 = new Font(fonts.Families[0], 16);
+            Font JetBrains14 = new Font(fonts.Families[0], 14);
             Font JetBrains12 = new Font(fonts.Families[0], 12);
             Font JetBrains40 = new Font(fonts.Families[0], 40);
 
@@ -147,27 +148,27 @@ namespace sep_authenticator
                 int x,y = 0;
                 //1. Get Token Container (Panel) Location. If ID is even (or 0) it's on the left, otherwise it's on the right.
                 if (token.Id % 2 == 0)
-                    x = 460;
+                    x = 502;
                 else
                     x = 14;
                 y = 0 + ((tokens.Length / 2)-1) * 146;
                 Panel pnl = new Panel();
-                pnl.Size = new Size(430, 140);
+                pnl.Size = new Size(494, 120);
                 pnl.Location = new Point(x, y);
                 pnlTokenHolder.Controls.Add(pnl);
 
                 //2. Initialise Username/Issuer Label
                 Label name = new Label();
                 name.Text = $"{token.Issuer} ({token.Name})";
-                name.Font = JetBrains16;
-                name.Location = new Point(0, 3);
+                name.Font = JetBrains14;
+                name.Location = new Point(0, 4);
                 name.AutoSize = true;
                 pnl.Controls.Add(name);
 
                 //3. Initialise More Button
                 Button more = new Button();
                 more.Font = JetBrains12;
-                more.Location = new Point(352, 3);
+                more.Location = new Point(432,50);
                 more.Size=new Size(52, 27);
                 more.Text = "...";
                 more.Tag = token.Id;
@@ -178,7 +179,7 @@ namespace sep_authenticator
                 //4. Circular Progress Bar
                 CircularProgressBar bar = new CircularProgressBar();
                 bar.Font = JetBrains16;
-                bar.Location = new Point(0, 37);
+                bar.Location = new Point(0, 20);
                 bar.Size = new Size(100, 100);
                 bar.Maximum = 30;
                 bar.Text = "30";
@@ -196,7 +197,7 @@ namespace sep_authenticator
                 //5. Initialise Code Label
                 Label code = new Label();
                 code.Font = JetBrains40;
-                code.Location = new Point(100, 50);
+                code.Location = new Point(91,33);
                 code.Text = "000000";
                 code.AutoSize = true;
                 code.Name = "lbCode_" + token.Id;
@@ -216,9 +217,9 @@ namespace sep_authenticator
             //throw new NotImplementedException();
             //Get button name from the sender
             int ID = Convert.ToInt32(((Button)sender).Tag);
-            ID--;
+            Token token = TokenDAL.GetTokenFromID(ID);
             Hide();
-            new frmAddEntry(true, tokens[ID]).Show();
+            new frmAddEntry(true, token).Show();
         }
 
         private void MoreButton_Click(object sender, EventArgs e)

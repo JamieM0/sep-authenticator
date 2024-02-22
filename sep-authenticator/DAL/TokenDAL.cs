@@ -81,23 +81,63 @@ namespace sep_authenticator.DAL
             connection.Open();
 
             // Create a SQL command to update a token in the table
-            string sql = @"UPDATE Tokens SET name = @name, secret = @secret, issuer = @issuer, updated_on = @updated_on WHERE token_id = @id";
+            string sql = $@"UPDATE Tokens SET name = '{token.Name}', secret = '{token.Secret}', issuer = '{token.Issuer}', created_on = '{token.CreatedOn.ToString("yyyy-MM-dd HH:mm:ss.fff")}', updated_on = '{token.UpdatedOn.ToString("yyyy-MM-dd HH:mm:ss.fff")}' WHERE token_id = '{token.Id}'";
 
             // Create a command object using the SQL command and the connection
             SQLiteCommand command = new SQLiteCommand(sql, connection);
-
-            // Create parameters for the command object
-            command.Parameters.AddWithValue("@name", token.Name); // The name of the token
-            command.Parameters.AddWithValue("@secret", token.Secret); // The secret key of the token
-            command.Parameters.AddWithValue("@issuer", token.Issuer); // The issuer of the token
-            command.Parameters.AddWithValue("@updated_on", token.UpdatedOn); // The date and time when the token was last updated
-            command.Parameters.AddWithValue("@id", token.Id); // The ID of the token to update
-
+            
             // Execute the command to update the token in the table
             command.ExecuteNonQuery();
 
             // Close the connection to the database
             connection.Close();
+        }
+
+        public static Token GetTokenFromID(int id)
+        {
+            // Create a connection string to the database file
+            string connectionString = "Data Source=tokens.db;Version=3;";
+
+            // Create a connection object using the connection string
+            SQLiteConnection connection = new SQLiteConnection(connectionString);
+
+            // Open the connection to the database
+            connection.Open();
+
+            // Create a SQL command to select a token from the table
+            string sql = @"SELECT * FROM Tokens WHERE token_id = @id";
+
+            // Create a command object using the SQL command and the connection
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+
+            // Create a parameter for the command object
+            command.Parameters.AddWithValue("@id", id); // The ID of the token to select
+
+            // Execute the command to select the token from the table
+            SQLiteDataReader reader = command.ExecuteReader();
+
+            // Create a token object to store the selected token
+            Token token = new Token();
+
+            // Read the data from the reader and store it in the token object
+            while (reader.Read())
+            {
+                token.Id = reader.GetInt32(0); // The ID of the token
+                token.Name = reader.GetString(1); // The name of the token
+                token.Secret = reader.GetString(2); // The secret key of the token
+                token.Issuer = reader.GetString(3); // The issuer of the token
+                token.CreatedOn = reader.GetDateTime(4); // The date and time when the token was created
+                token.UpdatedOn = reader.GetDateTime(5); // The date and time when the token was last updated
+            }
+
+            // Close the reader
+            reader.Close();
+
+            // Close the connection to the database
+            connection.Close();
+
+            // Return the selected token
+            return token;
         }
         
         public static Token[] GetTokens()
